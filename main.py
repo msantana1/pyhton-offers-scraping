@@ -1,9 +1,19 @@
-import os, smtplib, ssl, sys
+import os, smtplib, ssl, sys, re
 import requests
 from bs4 import BeautifulSoup
 
+def utf8Format(name):
+    name = name.replace("ñ", "n")
+    name = name.replace("á", "a")
+    name = name.replace("é", "e")
+    name = name.replace("í", "i")
+    name = name.replace("ó", "o")
+    name = name.replace("ú", "u")
+
+    return name
+
 def sendMail(name, url, price, currentPrice, discount, password, sender_email, receiver_email):
-    new_name = name.replace("ñ", "n")
+    newName = utf8Format(name)
     port = 587  # For starttls
     smtp_server = "smtp.office365.com"
     message ="""\
@@ -14,7 +24,7 @@ def sendMail(name, url, price, currentPrice, discount, password, sender_email, r
     URL: %s
     Precio regular: %s
     Precio actual:  %s
-    Descuento:      %s""" % (new_name, new_name, url, price, currentPrice, discount)
+    Descuento:      %s""" % (newName, newName, url, price, currentPrice, discount)
 
     print(message)
 
@@ -50,7 +60,7 @@ if "__main__" == __name__:
                     'https://www.cyberpuerta.mx/Computadoras/Laptops/Laptop-ASUS-Vivobook-S-D413UA-14-Full-HD-AMD-Ryzen-7-5700U-1-80GHz-16GB-512GB-SSD-Windows-10-Home-64-bit-Ingles-Negro.html' : '16559',
                     'https://www.cyberpuerta.mx/Computadoras/Laptops/Laptop-HP-EliteBook-845-G9-14-WUXGA-AMD-Ryzen-7-PRO-6850HS-3-20GHz-16GB-512GB-SSD-Windows-10-Pro-64-bit-Espanol-Plata.html' : '24179',
                     'https://www.cyberpuerta.mx/Computadoras/Laptops/Laptop-ASUS-Vivobook-S-D413UA-14-Full-HD-AMD-Ryzen-7-5700U-1-80GHz-16GB-512GB-SSD-Windows-10-Home-64-bit-Espanol-Oro-Rosado.html' : '17699',
-                    'https://www.cyberpuerta.mx/Computadoras/Laptops/Laptop-Lenovo-IdeaPad-3-15ALC6-15-6-Full-HD-AMD-Ryzen-7-5700U-1-80GHz-16GB-512GB-SSD-Windows-11-Home-64-bit-Espanol-Arena.html' : '19309',
+                    'https://www.cyberpuerta.mx/Computadoras/Laptops/Laptop-Lenovo-IdeaPad-3-15ALC6-15-6-Full-HD-AMD-Ryzen-7-5700U-1-80GHz-16GB-512GB-SSD-Windows-11-Home-64-bit-Espanol-Arena.html' : '16719',
                     'https://www.cyberpuerta.mx/Computadoras/Laptops/Laptop-Lenovo-V14-G2-ALC-14-HD-AMD-Ryzen-7-5700U-1-80GHz-16GB-512GB-SSD-Windows-10-Pro-64-bit-Espanol-Gris.html' : '19245'}
     
     urlsi7 = {  'https://www.cyberpuerta.mx/Computadoras/Laptops/Laptop-Gamer-XPG-Xenia-14-14-Full-HD-Intel-Core-i7-1165G7-2-80GHz-16GB-512GB-SSD-Windows-10-Home-64-bit-Espanol-Negro.html' : '16049',
