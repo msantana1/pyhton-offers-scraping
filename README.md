@@ -10,4 +10,11 @@ This Python script is desgined to be executed through a Linux cronjob, the princ
 
 But the Python script prints the content of the email body so in the cronjob it can be configured to store the general output into a log file
 
+The Python script receives 3 parameters in this order:
+
+1. Mail account password from where the email will be sended
+2. Mail account from where the email will be sended
+3. Mail account that will receive the information
+
+
 The URLs are stored on dictionaries, one per CPU family (Ryzen 7 and i7) so it can be easily retrived the individual data (each URL and its price), the goal of using dictionaries is that it can be easily added new CPU families or data from other e-commerce sites
