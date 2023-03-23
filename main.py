@@ -12,9 +12,9 @@ def utf8Format(name):
 
     return name
 
-def structureMessage(name, url, price, currentPrice, discount):
+def structureMessageBody(name, url, price, currentPrice, discount):
     newName = utf8Format(name)
-    message ="""\
+    emailBody ="""\
     Subject: OFERTA %s
 
     ***** OFERTA *****
@@ -24,11 +24,9 @@ def structureMessage(name, url, price, currentPrice, discount):
     Precio actual:  %s
     Descuento:      %s""" % (newName, newName, url, price, currentPrice, discount)
 
-    print(message)
+    return emailBody
 
-    return message
-
-def sendEmail(message, password, sender_email, receiver_email):
+def sendEmail(emailBody, password, sender_email, receiver_email):
     port = 587  # For starttls
     smtp_server = "smtp.office365.com"
 
@@ -38,7 +36,7 @@ def sendEmail(message, password, sender_email, receiver_email):
         server.starttls(context=context)
         #server.ehlo()  # Can be omitted
         server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message)
+        server.sendmail(sender_email, receiver_email, emailBody)
         server.quit()
 
 def urlsCyberpuerta(urls):
@@ -54,7 +52,8 @@ def urlsCyberpuerta(urls):
 
         discount = int(price) - int(currentPrice)
         if discount > 0 and availability == "InStock":
-            emailContent = structureMessage(name, urlvar, price, currentPrice, discount)
+            emailContent = structureMessageBody(name, urlvar, price, currentPrice, discount)
+            print(emailContent)
             #sendEmail(emailContent, password, sender_email, receiver_email)
 
 if "__main__" == __name__:
