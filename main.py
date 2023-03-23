@@ -12,10 +12,8 @@ def utf8Format(name):
 
     return name
 
-def sendMail(name, url, price, currentPrice, discount, password, sender_email, receiver_email):
+def structureMessage(name, url, price, currentPrice, discount):
     newName = utf8Format(name)
-    port = 587  # For starttls
-    smtp_server = "smtp.office365.com"
     message ="""\
     Subject: OFERTA %s
 
@@ -27,6 +25,12 @@ def sendMail(name, url, price, currentPrice, discount, password, sender_email, r
     Descuento:      %s""" % (newName, newName, url, price, currentPrice, discount)
 
     print(message)
+
+    return message
+
+def sendEmail(message, password, sender_email, receiver_email):
+    port = 587  # For starttls
+    smtp_server = "smtp.office365.com"
 
     context = ssl.create_default_context()
     with smtplib.SMTP(smtp_server, port) as server:
@@ -50,8 +54,8 @@ def urlsCyberpuerta(urls):
 
         discount = int(price) - int(currentPrice)
         if discount > 0 and availability == "InStock":
-            sendMail(name, urlvar, price, currentPrice, discount, password, sender_email, receiver_email)
-
+            emailContent = structureMessage(name, urlvar, price, currentPrice, discount)
+            #sendEmail(emailContent, password, sender_email, receiver_email)
 
 if "__main__" == __name__:
 
